@@ -51,7 +51,6 @@ def save_to_file(url_list, filename="hasil.txt"):
             file.write(url + "\n")
 
 def main():
-    # Menampilkan banner
     banner = ("""
           ______ _          ______ _   _  _____  
           | ___ \ |         | ___ \ | | ||  _  | 
