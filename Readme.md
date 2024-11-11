@@ -12,6 +12,7 @@ git clone https://github.com/RHYru9/Url-Cleaner.git
 cd Url-Cleaner
 python CleanUrl.py -L yourlist.txt
 ```
-    
-##  About Me
- i'm noobiee
+
+
+**Website**
+Or you can directly from this website https://rhyru9.github.io/uri/
