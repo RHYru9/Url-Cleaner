@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL List Cleaner</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 720px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+            box-sizing: border-box;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            resize: none;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .button {
+            flex: 1;
+            padding: 8px;
+            background-color: #6c63ff;
+            color: white;
+            font-size: 13px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #4e47f0;
+        }
+        .result {
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+        .footer {
+            margin-top: 30px;
+            color: #555;
+            font-size: 14px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            textarea {
+                height: 180px;
+                font-size: 13px;
+            }
+            .button {
+                padding: 7px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL List Cleaner</h1>
+        
+        <textarea id="urls" placeholder="Paste your list of URLs here, one per line..."></textarea>
+
+        <div class="result">
+            <textarea id="cleanedUrls" readonly placeholder="Your cleaned URLs will appear here..."></textarea>
+        </div>
+
+        <div class="button-container">
+            <button class="button" onclick="cleanUrls()">Clean URL</button>
+            <button class="button" onclick="addHttps()">Add https://</button>
+            <button class="button" onclick="addHttp()">Add http://</button>
+            <button class="button" onclick="removeHttpVariations()">Remove https:// and http://</button>
+            <button class="button" onclick="removeDuplicateDomains()">Remove Duplicate Domains</button>
+        </div>
+
+        <div class="footer">Created by @rhyru9</div>
+    </div>
+
+    <script>
+        let urls = [];
+
+        function getUrls() {
+            let input = document.getElementById("urls").value.trim();
+            urls = input.split('\n').map(url => url.trim());
+        }
+
+        function cleanUrls() {
+            getUrls();
+            let cleanedUrls = urls.map(url => new URL(url).origin);
+            document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+        }
+
+        function addHttps() {
+            getUrls();
+            let cleanedUrls = urls.map(url => /^https:\/\//.test(url) ? url : "https://" + url);
+            document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+        }
+
+        function addHttp() {
+            getUrls();
+            let cleanedUrls = urls.map(url => /^http:\/\//.test(url) ? url : "http://" + url);
+            document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+        }
+
+        function removeHttpVariations() {
+            getUrls();
+            let cleanedUrls = urls.map(url => url.replace(/^https?:\/\/(www\.)?/, ''));
+            document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+        }
+
+        function removeDuplicateDomains() {
+            getUrls();
+            let cleanedUrls = Array.from(new Set(urls.map(url => new URL(url).hostname)));
+            document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+        }
+    </script>
+</body>
+</html>
