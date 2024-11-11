@@ -148,7 +148,10 @@
 
         function removeDuplicateDomains() {
             getUrls();
-            let cleanedUrls = Array.from(new Set(urls.map(url => new URL(url).hostname)));
+            let cleanedUrls = Array.from(new Set(urls.map(url => {
+                let hostname = new URL(url.replace(/^https?:\/\//, '')).hostname;
+                return hostname;
+            })));
             document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
         }
     </script>
