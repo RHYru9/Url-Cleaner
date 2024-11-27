@@ -124,7 +124,11 @@
 
         function cleanUrls() {
             getUrls();
-            let cleanedUrls = urls.map(url => new URL(url).origin);
+            // Filter hanya baris yang mengandung domain/URL
+            let cleanedUrls = urls.map(url => {
+                let match = url.match(/(?:https?:\/\/)?(?:www\.)?([a-zA-Z0-9.-]+\.[a-zA-Z]+)/);
+                return match ? match[1] : null; // Ambil hanya domain utama
+            }).filter(Boolean); // Hapus baris null/undefined
             document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
         }
 
