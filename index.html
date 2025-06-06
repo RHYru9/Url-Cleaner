@@ -3,161 +3,505 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL List Cleaner</title>
+    <title>Enhanced URL List Cleaner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(45deg, #1e3c72, #2a5298);
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .container {
             width: 100%;
-            max-width: 720px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            padding: 30px;
-            text-align: center;
-            box-sizing: border-box;
-            margin: 20px;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            animation: fadeIn 0.6s ease-out;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         h1 {
-            color: #333;
-            font-size: 28px;
+            color: #2d3748;
+            font-size: 32px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
+
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .input-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '📝';
+            font-size: 20px;
+        }
+
         textarea {
             width: 100%;
-            height: 200px;
-            padding: 12px;
+            height: 180px;
+            padding: 16px;
             font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            resize: none;
-            margin-bottom: 15px;
-            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            background: #fafafa;
         }
-        .button-container {
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        .stats {
             display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 20px;
+            margin: 15px 0;
+            flex-wrap: wrap;
         }
+
+        .stat-item {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            color: #4a5568;
+            min-width: 120px;
+        }
+
+        .stat-number {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 18px;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 25px 0;
+        }
+
         .button {
-            flex: 1;
-            padding: 8px;
-            background-color: #6c63ff;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            font-size: 13px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button.danger {
+            background: linear-gradient(135deg, #fc8181, #e53e3e);
+        }
+
+        .button.danger:hover {
+            box-shadow: 0 8px 20px rgba(229, 62, 62, 0.3);
+        }
+
+        .button.success {
+            background: linear-gradient(135deg, #68d391, #38a169);
+        }
+
+        .button.success:hover {
+            box-shadow: 0 8px 20px rgba(56, 161, 105, 0.3);
+        }
+
+        .result-section {
+            margin-top: 25px;
+        }
+
+        .result-section .section-title::before {
+            content: '✨';
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            background: #e2e8f0;
+            color: #4a5568;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            font-size: 13px;
+            transition: all 0.3s ease;
         }
-        .button:hover {
-            background-color: #4e47f0;
+
+        .action-btn:hover {
+            background: #cbd5e0;
+            color: #2d3748;
         }
-        .result {
-            background-color: #f7f7f7;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 20px;
-        }
+
         .footer {
-            margin-top: 30px;
-            color: #555;
+            margin-top: 40px;
+            text-align: center;
+            color: #718096;
             font-size: 14px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
         }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #48bb78;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 8px 20px rgba(72, 187, 120, 0.3);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
         @media (max-width: 768px) {
             .container {
-                padding: 20px;
+                padding: 25px;
+                margin: 10px;
             }
+            
             h1 {
-                font-size: 24px;
+                font-size: 28px;
             }
-            textarea {
-                height: 180px;
-                font-size: 13px;
+            
+            .button-grid {
+                grid-template-columns: 1fr;
             }
-            .button {
-                padding: 7px;
-                font-size: 12px;
+            
+            .stats {
+                justify-content: center;
+            }
+            
+            .action-buttons {
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>URL List Cleaner</h1>
+        <h1>Enhanced URL List Cleaner</h1>
+        <p class="subtitle">Powerful tool to clean, format, and manage your URL lists</p>
         
-        <textarea id="urls" placeholder="Paste your list of URLs here, one per line..."></textarea>
+        <div class="input-section">
+            <div class="section-title">Input URLs</div>
+            <textarea id="urls" placeholder="Paste your list of URLs here, one per line...&#10;&#10;Examples:&#10;https://www.example.com/page&#10;http://subdomain.example.org&#10;www.another-example.com&#10;just-domain.net"></textarea>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalLines">0</div>
+                    <div>Total Lines</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="validUrls">0</div>
+                    <div>Valid URLs</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="uniqueDomains">0</div>
+                    <div>Unique Domains</div>
+                </div>
+            </div>
+        </div>
 
-        <div class="result">
+        <div class="button-grid">
+            <button class="button" onclick="cleanUrls()">🧹 Clean Domains Only</button>
+            <button class="button" onclick="addHttps()">🔒 Add HTTPS://</button>
+            <button class="button" onclick="addHttp()">🌐 Add HTTP://</button>
+            <button class="button" onclick="removeProtocols()">❌ Remove Protocols</button>
+            <button class="button" onclick="removeWww()">🚫 Remove WWW</button>
+            <button class="button" onclick="addWww()">➕ Add WWW</button>
+            <button class="button success" onclick="removeDuplicates()">🗂️ Remove Duplicates</button>
+            <button class="button" onclick="extractDomains()">🎯 Extract Root Domains</button>
+            <button class="button" onclick="sortUrls()">📊 Sort Alphabetically</button>
+            <button class="button" onclick="validateUrls()">✅ Validate URLs</button>
+            <button class="button" onclick="addSlash()">➡️ Add Trailing Slash</button>
+            <button class="button danger" onclick="clearAll()">🗑️ Clear All</button>
+        </div>
+
+        <div class="result-section">
+            <div class="section-title">Cleaned Results</div>
+            <div class="action-buttons">
+                <button class="action-btn" onclick="copyResults()">📋 Copy Results</button>
+                <button class="action-btn" onclick="downloadResults()">💾 Download as TXT</button>
+                <button class="action-btn" onclick="countResults()">🔢 Count Results</button>
+            </div>
             <textarea id="cleanedUrls" readonly placeholder="Your cleaned URLs will appear here..."></textarea>
         </div>
 
-        <div class="button-container">
-            <button class="button" onclick="cleanUrls()">Clean URL</button>
-            <button class="button" onclick="addHttps()">Add https://</button>
-            <button class="button" onclick="addHttp()">Add http://</button>
-            <button class="button" onclick="removeHttpVariations()">Remove https:// and http://</button>
-            <button class="button" onclick="removeDuplicateDomains()">Remove Duplicate Domains</button>
+        <div class="footer">
+            Created with ❤️ by <a href="#">@rhyru9</a> | Enhanced Version 2.0
         </div>
-
-        <div class="footer">Created by @rhyru9</div>
     </div>
+
+    <div class="toast" id="toast"></div>
 
     <script>
         let urls = [];
 
+        // Update stats in real-time
+        document.getElementById('urls').addEventListener('input', updateStats);
+
         function getUrls() {
             let input = document.getElementById("urls").value.trim();
-            urls = input.split('\n').map(url => url.trim());
+            urls = input.split('\n').map(url => url.trim()).filter(url => url.length > 0);
+            return urls;
+        }
+
+        function updateStats() {
+            const input = document.getElementById("urls").value.trim();
+            const lines = input.split('\n').filter(line => line.trim().length > 0);
+            const validUrls = lines.filter(line => isValidUrl(line.trim()));
+            const domains = [...new Set(lines.map(line => extractDomain(line.trim())).filter(Boolean))];
+
+            document.getElementById('totalLines').textContent = lines.length;
+            document.getElementById('validUrls').textContent = validUrls.length;
+            document.getElementById('uniqueDomains').textContent = domains.length;
+        }
+
+        function isValidUrl(url) {
+            const pattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+            return pattern.test(url);
+        }
+
+        function extractDomain(url) {
+            try {
+                const match = url.match(/(?:https?:\/\/)?(?:www\.)?([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}/);
+                return match ? match[0].replace(/^(https?:\/\/)?(www\.)?/, '') : null;
+            } catch {
+                return null;
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
 
         function cleanUrls() {
             getUrls();
-            // Filter hanya baris yang mengandung domain/URL
             let cleanedUrls = urls.map(url => {
-                let match = url.match(/(?:https?:\/\/)?(?:www\.)?([a-zA-Z0-9.-]+\.[a-zA-Z]+)/);
-                return match ? match[1] : null; // Ambil hanya domain utama
-            }).filter(Boolean); // Hapus baris null/undefined
+                let match = url.match(/(?:https?:\/\/)?(?:www\.)?([a-zA-Z0-9][a-zA-Z0-9.-]*[a-zA-Z0-9]*\.[a-zA-Z]{2,})/);
+                return match ? match[1] : null;
+            }).filter(Boolean);
             document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+            showToast(`Cleaned ${cleanedUrls.length} URLs`);
         }
 
         function addHttps() {
             getUrls();
-            let cleanedUrls = urls.map(url => /^https:\/\//.test(url) ? url : "https://" + url);
+            let cleanedUrls = urls.map(url => {
+                url = url.replace(/^https?:\/\//, '');
+                return url.startsWith('https://') ? url : "https://" + url;
+            });
             document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+            showToast('Added HTTPS to all URLs');
         }
 
         function addHttp() {
             getUrls();
-            let cleanedUrls = urls.map(url => /^http:\/\//.test(url) ? url : "http://" + url);
+            let cleanedUrls = urls.map(url => {
+                url = url.replace(/^https?:\/\//, '');
+                return url.startsWith('http://') ? url : "http://" + url;
+            });
             document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+            showToast('Added HTTP to all URLs');
         }
 
-        function removeHttpVariations() {
+        function removeProtocols() {
             getUrls();
-            let cleanedUrls = urls.map(url => url.replace(/^https?:\/\/(www\.)?/, ''));
+            let cleanedUrls = urls.map(url => url.replace(/^https?:\/\//, ''));
             document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+            showToast('Removed all protocols');
         }
 
-        function removeDuplicateDomains() {
+        function removeWww() {
             getUrls();
-            let cleanedUrls = Array.from(new Set(urls.map(url => {
-                let domain = url.replace(/^https?:\/\//, '').split('/')[0];
+            let cleanedUrls = urls.map(url => url.replace(/^(https?:\/\/)?(www\.)/, '$1'));
+            document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+            showToast('Removed WWW from all URLs');
+        }
+
+        function addWww() {
+            getUrls();
+            let cleanedUrls = urls.map(url => {
+                if (url.match(/^https?:\/\//)) {
+                    return url.replace(/^(https?:\/\/)((?!www\.))/, '$1www.');
+                } else {
+                    return url.startsWith('www.') ? url : 'www.' + url;
+                }
+            });
+            document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+            showToast('Added WWW to all URLs');
+        }
+
+        function removeDuplicates() {
+            getUrls();
+            let cleanedUrls = [...new Set(urls)];
+            document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+            showToast(`Removed ${urls.length - cleanedUrls.length} duplicates`);
+        }
+
+        function extractDomains() {
+            getUrls();
+            let cleanedUrls = [...new Set(urls.map(url => {
+                let domain = url.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
                 return domain;
-            })));
+            }).filter(Boolean))];
             document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+            showToast(`Extracted ${cleanedUrls.length} unique domains`);
         }
+
+        function sortUrls() {
+            getUrls();
+            let cleanedUrls = urls.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+            document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+            showToast('URLs sorted alphabetically');
+        }
+
+        function validateUrls() {
+            getUrls();
+            let validUrls = urls.filter(url => isValidUrl(url));
+            let invalidCount = urls.length - validUrls.length;
+            document.getElementById("cleanedUrls").value = validUrls.join('\n');
+            showToast(`Found ${validUrls.length} valid URLs, removed ${invalidCount} invalid`);
+        }
+
+        function addSlash() {
+            getUrls();
+            let cleanedUrls = urls.map(url => url.endsWith('/') ? url : url + '/');
+            document.getElementById("cleanedUrls").value = cleanedUrls.join('\n');
+            showToast('Added trailing slash to all URLs');
+        }
+
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all content?')) {
+                document.getElementById("urls").value = '';
+                document.getElementById("cleanedUrls").value = '';
+                updateStats();
+                showToast('All content cleared');
+            }
+        }
+
+        function copyResults() {
+            const results = document.getElementById("cleanedUrls");
+            results.select();
+            results.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(results.value).then(() => {
+                showToast('Results copied to clipboard!');
+            }).catch(() => {
+                document.execCommand('copy');
+                showToast('Results copied to clipboard!');
+            });
+        }
+
+        function downloadResults() {
+            const results = document.getElementById("cleanedUrls").value;
+            if (!results.trim()) {
+                showToast('No results to download');
+                return;
+            }
+            
+            const blob = new Blob([results], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cleaned-urls-${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            showToast('Results downloaded successfully!');
+        }
+
+        function countResults() {
+            const results = document.getElementById("cleanedUrls").value.trim();
+            const count = results ? results.split('\n').filter(line => line.trim()).length : 0;
+            showToast(`Results contain ${count} lines`);
+        }
+
+        // Initialize stats
+        updateStats();
     </script>
 </body>
 </html>
