@@ -1,18 +1,19 @@
+# URL Cleaner
 
-# URL Cleaner.
+> **Note:** The project has moved to [https://github.com/rhyru9/](https://github.com/RHYru9/rhyru9.github.io/tree/main/tools)
 
-This tool helps you filter the URL list. Removing urls, such as Trim to root, Trim to subfolder, Remove Parameters , clean url.
-
+This tool helps you filter URL lists by removing duplicates, trimming to root or subfolder, removing parameters, and cleaning URLs.
 
 ## Installation
 
-Running
+Clone the repository and run the tool:
+
 ```bash
 git clone https://github.com/RHYru9/Url-Cleaner.git
 cd Url-Cleaner
 python CleanUrl.py -L yourlist.txt
 ```
 
+## Web Interface
 
-**Website**
-Or you can directly from this website https://rhyru9.github.io/uri/
+Alternatively, you can use the web-based version at https://rhyru9.github.io/tools/
